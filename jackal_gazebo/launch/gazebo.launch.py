@@ -92,15 +92,16 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(PathJoinSubstitution(
                 [FindPackageShare('jackal_control'), 'launch', 'control.launch.py']
             )),
-            launch_arguments=[('robot_description_command', robot_description_command),
-                              ('is_sim', 'True')]
+            launch_arguments={'robot_description_command': robot_description_command,'is_sim':'True',}.items()
         )
 
     # Launch jackal_control/teleop_base.launch.py which is various ways to tele-op
     # the robot but does not include the joystick. Also, has a twist mux.
     launch_jackal_teleop_base = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution(
-        [FindPackageShare('jackal_control'), 'launch', 'teleop_base.launch.py'])))
+        [FindPackageShare('jackal_control'), 'launch', 'teleop_base.launch.py'])),
+        launch_arguments={'robot_description_command': robot_description_command,'is_sim':'True',}.items()
+        )
 
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(gz_resource_path)
